@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.*;
 
 class AuthForm extends JFrame{
+	private String itemnames[];
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	
@@ -29,18 +30,19 @@ class AuthForm extends JFrame{
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		itemnames = GenerateItems.GenerateItemNames();
 		JTextField loginField = GenerateItems.CreateTField(contentPane, "",101, 74, 118, 20);
 		JTextField passwordField = GenerateItems.CreateTField(contentPane, "",101, 105, 118, 20);
 		JLabel labelMessages = GenerateItems.CreateLabel(contentPane, "", 31, 55, 188, 14);
-		JLabel labelAuth = GenerateItems.CreateLabel(contentPane, "Auth", 31, 30, 188, 14);
-		JLabel labelLogin = GenerateItems.CreateLabel(contentPane, "Login", 31, 77, 60, 14);
-		JLabel labelPassword = GenerateItems.CreateLabel(contentPane, "Password", 31, 108, 60, 14);
+		JLabel labelAuth = GenerateItems.CreateLabel(contentPane, itemnames[0], 31, 30, 188, 14);
+		JLabel labelLogin = GenerateItems.CreateLabel(contentPane, itemnames[6], 31, 77, 60, 14);
+		JLabel labelPassword = GenerateItems.CreateLabel(contentPane, itemnames[7], 31, 108, 60, 14);
 		ActionListener ExitButListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				dispose();
 			}
 		};
-		JButton buttonExit = GenerateItems.CreateButton(ExitButListener,contentPane, "Exit", 130, 136, 89, 23);
+		JButton buttonExit = GenerateItems.CreateButton(ExitButListener,contentPane, itemnames[1], 130, 136, 89, 23);
 		ActionListener AuthButListener = new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			if (loginField.getText().equals("1") && passwordField.getText().equals("1")) 
@@ -55,11 +57,11 @@ class AuthForm extends JFrame{
 				}
 			else
 				{
-				labelMessages.setText("Invalid data.");
+				labelMessages.setText(itemnames[8]);
 				}
 			dispose();
 			}
 		};
-		JButton buttonAuth = GenerateItems.CreateButton(AuthButListener, contentPane, "Auth", 31, 136, 89, 23);
+		JButton buttonAuth = GenerateItems.CreateButton(AuthButListener, contentPane, itemnames[0], 31, 136, 89, 23);
 	}
 }

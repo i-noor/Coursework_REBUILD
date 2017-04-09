@@ -2,6 +2,8 @@ package mainpack;
 
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+
 import javax.swing.*;
 
 class GenerateItems {
@@ -35,5 +37,21 @@ class GenerateItems {
 		panel.setVisible(flag);
 		contentPane.add(panel);
 		return panel;
+	}
+	public static String[] GenerateItemNames(){
+		String itemnames[];
+		String path;
+		File file = new File("./itemnames.txt");
+		path = file.getPath();
+		int rowcolnum[] = FileWorker.count(path);
+		String str[][] = FileWorker.read(path, rowcolnum[0], rowcolnum[1]);
+		itemnames = new String[rowcolnum[0]];
+		int i;
+		for (i=0;i<rowcolnum[0];i++)
+		{
+			itemnames[i]="";
+			itemnames[i]=str[i][0];
+		}
+		return itemnames;
 	}
 }
