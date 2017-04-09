@@ -136,11 +136,12 @@ class FirstForm extends JFrame {
 				 * создание экземпляра класса JFileChooser
 				 */
 				JFileChooser fileopen = new JFileChooser();
-			/**
-			 * открытие диалогового окна выбора файлов и проверка на нажатие кнопки подтверждения выбора
-			 */
-		        int ret = fileopen.showDialog(null, itemnames[10]);                
-		        if (ret == JFileChooser.APPROVE_OPTION) {
+			  /**
+			   * открытие окна выбора файла
+		  	 */
+				  JFileChooser fileopen = new JFileChooser();				
+		      int ret = fileopen.showDialog(null, itemnames[10]);                
+		      if (ret == JFileChooser.APPROVE_OPTION) {
 					/**
 					 * создание экземпляра выбранного файла
 					 */
