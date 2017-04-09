@@ -49,17 +49,18 @@ class AuthForm extends JFrame{
 				{ 
 				FirstForm fr1 = new FirstForm(1);
 				fr1.setVisible(true); 
+				dispose();
 				}
 			else if (loginField.getText().equals("2") && passwordField.getText().equals("2")) 
 				{ 
 				FirstForm fr1 = new FirstForm(2);
 				fr1.setVisible(true); 
+				dispose();
 				}
 			else
 				{
 				labelMessages.setText(itemnames[8]);
 				}
-			dispose();
 			}
 		};
 		JButton buttonAuth = GenerateItems.CreateButton(AuthButListener, contentPane, itemnames[0], 31, 136, 89, 23);
