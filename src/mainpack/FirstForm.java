@@ -1,8 +1,10 @@
 /**
- * объявление пакета и подключение классов, необходимыхдля работы
+ * Указывает, к какому пакету принадлежит файл
  */
 package mainpack;
-
+/**
+ * импорт необходимых библиотек
+ */
 import java.awt.event.*;
 import java.io.*;
 import javax.swing.*;
@@ -11,7 +13,7 @@ import javax.swing.table.*;
 /**
  * объявление класса, создающего форму пользователя
  */
-class FirstForm extends JFrame {
+public class FirstForm extends JFrame {
 	/**
 	 * устанавливаем идентификатор версии сериализованного класса
 	 */
@@ -42,11 +44,11 @@ class FirstForm extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		/**
-		 * обращение к методу, считывающему из файла названия элементов
+		 * Загрузка названий элементов из файла через специальный метод
 		 */
 		String itemnames[] = GenerateItems.GenerateItemNames();
 		/**
-		 * генерация компонентов экранной формы
+		 * генерация рабочих панелей и создание таблицы, отвечающей за вывод основной информации
 		 */
 		JPanel panelWork = GenerateItems.CreatePanel(contentPane, 10, 11, 414, 239, false);		
 		JPanel panelDownload = GenerateItems.CreatePanel(contentPane, 10, 11, 414, 239, true);		
@@ -61,7 +63,7 @@ class FirstForm extends JFrame {
 		scrollPane.setViewportView(table);
 		table.setBounds(10, 191, 394, -179);	
 		/**
-		 * задаем обработку событий для кнопки перехода на панель для загрузки файла
+		 * Обработчик события, происходящего при нажатии на кнопку
 		 */
 		ActionListener CloseButListener = new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -71,7 +73,7 @@ class FirstForm extends JFrame {
 				panelWork.setVisible(false);
 				panelDownload.setVisible(true);
 				/**
-				 * инициализируем массивы для хранения данных таблицы и для хранения названий заголовков
+				 * Обнуляются массивы для хранения данных таблицы и для хранения названий заголовков
 				 */
 				data = new String[0][0];
 				columnnames = new String[0];
@@ -83,7 +85,7 @@ class FirstForm extends JFrame {
 			}
 		};
 		/**
-		 * инициализация кнопки закрытия формы
+		 * инициализация кнопки закрытия файла
 		 */
 		JButton buttonClose =  GenerateItems.CreateButton(CloseButListener, panelWork, itemnames[2], 10, 205, 89, 23);		
 		/**
@@ -102,7 +104,7 @@ class FirstForm extends JFrame {
 						 else { str = str + columnnames[i]; }
 				}
 				/**
-				 * запись значений ячеек таблицы в строку для последующей записи в файл
+				 * Дополнение строки значениями ячеек таблицы
 				 */
 				str = str + System.getProperty("line.separator");
 				for (i=0;i<rowcolnum[0]-1;i++) {
@@ -112,7 +114,7 @@ class FirstForm extends JFrame {
 					}
 				}
 				/**
-				 * запись в файл по указанному пути и вывод сообщения об успешном сохранении
+				 * запись строки в файл по указанному пути и вывод сообщения об успешном сохранении
 				 */
 				FileWorker.write(path, str);
 				JOptionPane.showMessageDialog(null, itemnames[9], itemnames[11], JOptionPane.INFORMATION_MESSAGE);
@@ -128,88 +130,83 @@ class FirstForm extends JFrame {
 		ActionListener DownloadButListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/**
-				 * переход между панелями
+				 * изменяем видимость панелей для появления панели работы с файлами
 				 */
 				panelDownload.setVisible(false);
 				panelWork.setVisible(true);
 				/**
-				 * создание экземпляра класса JFileChooser
+				 * создание объекта, отвечающего за открытие меню выбора файла для загрузки
 				 */
 				JFileChooser fileopen = new JFileChooser();
-			  /**
-			   * открытие окна выбора файла
-		  	 */
-				  JFileChooser fileopen = new JFileChooser();				
-		      int ret = fileopen.showDialog(null, itemnames[10]);                
-		      if (ret == JFileChooser.APPROVE_OPTION) {
-					/**
-					 * создание экземпляра выбранного файла
-					 */
-					File file = fileopen.getSelectedFile();
-					/**
-					 * получение пути к файлу
-					 */
-					path = file.getPath();
-					/**
-					 * использование метода count класса FileWorker для подсчета количества строк и столбцов
-					 */
-					rowcolnum = FileWorker.count(path);
-					/**
-					 * использование метода read класса FileWorker для считывания данных
-					 */
-					filecont = FileWorker.read(path, rowcolnum[0], rowcolnum[1]);
-					/**
-					 * задание размерности массива названий столбцов
-					 */
-					columnnames = new String[rowcolnum[1]];
-					/**
-					 * задание размерности массива данных 
-					 */
-					data = new String[rowcolnum[0]-1][rowcolnum[1]];
-					int i,j;
-					/**
-					 * запись в массив названий столбцов
-					 */
-					for (j=0;j<rowcolnum[1];j++) columnnames[j]=filecont[0][j];
-					/**
-					 * цикл перебора строк
-					 */
-					for (i=0;i<rowcolnum[0]-1;i++)
+				/**
+				* открытие окна выбора файла
+				*/			
+				int ret = fileopen.showDialog(null, itemnames[10]);                
+				if (ret == JFileChooser.APPROVE_OPTION) {
+				/**
+				 * создание экземпляра выбранного файла
+				 */
+				File file = fileopen.getSelectedFile();
+				/**
+				 * получение полного пути к файлу
+				 */
+				path = file.getPath();
+				/**
+				 * использование специального метода для подсчета количества строк и столбцов в файле
+				 */
+				rowcolnum = FileWorker.count(path);
+				/**
+				 * использование специальногшо метода для считывания данных из файла
+				 */
+				filecont = FileWorker.read(path, rowcolnum[0], rowcolnum[1]);
+				/**
+				 * задание размерности массива названий столбцов
+				 */
+				columnnames = new String[rowcolnum[1]];
+				/**
+				 * задание размерности массива данных ячеек таблицы
+				 */
+				data = new String[rowcolnum[0]-1][rowcolnum[1]];
+				int i,j;
+				/**
+				 * Заполнение массива названий столбцов
+				 */
+				for (j=0;j<rowcolnum[1];j++) columnnames[j]=filecont[0][j];
+				/**
+				 * Заполнение массива данных ячеек таблицы
+				 */
+				for (i=0;i<rowcolnum[0]-1;i++)
+				{
+					for (j=0;j<rowcolnum[1];j++)
 					{
 						/**
-						 * цикл перебора столбцов
+						 * запись данных в массив
 						 */
-						for (j=0;j<rowcolnum[1];j++)
-						{
-							/**
-							 * запись данных в массив
-							 */
-							data[i][j] = filecont[i+1][j];
-						}
+						data[i][j] = filecont[i+1][j];
 					}
-					if (flag == 2) {
-						/**
-						 * делаем таблицу неизменяемой пользователем
-						 */
-						table.setEnabled(false);
-						/**
-						 * вычисление суммы заработной платы и налогов
-						 */
-						for (i=0;i<rowcolnum[0]-1;i++) { 
-							
-							data[i][5] = String.valueOf((int)(Float.valueOf(data[i][2])*(Float.valueOf(data[i][4])/Float.valueOf(data[i][3]))));
-							data[i][6] = String.valueOf((int)(Float.valueOf(data[i][5])*0.13));
-							data[i][7] = String.valueOf((int)(Float.valueOf(data[i][5])*0.22));
-							data[i][8] = String.valueOf((int)(Float.valueOf(data[i][5])*0.051));
-							data[i][9] = String.valueOf((int)(Float.valueOf(data[i][5])*0.029));
-							data[i][10] = String.valueOf((int)(Float.valueOf(data[i][5])*0.002));
-							data[i][11] = String.valueOf((int)(Float.valueOf(data[i][5])-Float.valueOf(data[i][6])));
-						}
-					}
+				}
+				if (flag == 2) {
 					/**
-					 * задаем модель таблицы и заголовки столбцов
+					 * Запрещаем пользователю редактировать таблицу
 					 */
-					table.setModel(new DefaultTableModel(data,columnnames));
+					table.setEnabled(false);
+					/**
+					 * вычисление суммы заработной платы и налогов
+					 */
+					for (i=0;i<rowcolnum[0]-1;i++) { 
+						data[i][5] = SalaryCount(Float.valueOf(data[i][3]), Float.valueOf(data[i][4]), Float.valueOf(data[i][2]));
+						data[i][6] = NDFL(Float.valueOf(data[i][5]));
+						data[i][7] = PFR(Float.valueOf(data[i][5]));
+						data[i][8] = FFOMS(Float.valueOf(data[i][5]));
+						data[i][9] = FSS(Float.valueOf(data[i][5]));
+						data[i][10] = FSSNS(Float.valueOf(data[i][5]));
+						data[i][11] = TotalSalary(Integer.valueOf(data[i][5]),Integer.valueOf(data[i][6]));
+					}
+				}
+				/**
+				 * задаем модель таблицы и заголовки столбцов
+				 */
+				table.setModel(new DefaultTableModel(data,columnnames));
 		        }
 			}
 		};
@@ -223,7 +220,7 @@ class FirstForm extends JFrame {
 		ActionListener ExitButListener = new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				/**
-				 * открытие формы авторизации и освобождение ресурсов
+				 * открытие формы авторизации и освобождение ресурсов текущей формы
 				 */
 				AuthForm fr = new AuthForm();
 				fr.setVisible(true);	
@@ -234,5 +231,61 @@ class FirstForm extends JFrame {
 		 * инициализация кнопки выхода
 		 */
 		JButton buttonExit = GenerateItems.CreateButton(ExitButListener, contentPane, itemnames[1], 172, 261, 89, 23);		
+	}
+	/**
+	 * Метод, вычисляющий номинальный размер заработной платы
+	 */
+	public static String SalaryCount(float totaldays,float days, float sal){
+		String str;
+		str = String.valueOf((int)(sal*(days/totaldays)));
+		return str;
+	}
+	/**
+	 * Метод, вычисляющий размер выплаты по НДФЛ
+	 */
+	public static String NDFL(float salary){
+		String str;
+		str = String.valueOf((int)(salary*0.13));
+		return str;
+	}
+	/**
+	 * Метод, вычисляющий размер выплаты по ПФР
+	 */
+	public static String PFR(float salary){
+		String str;
+		str = String.valueOf((int)(salary*0.22));
+		return str;
+	}
+	/**
+	 * Метод, вычисляющий размер выплаты по ФФОМС
+	 */
+	public static String FFOMS(float salary){
+		String str;
+		str = String.valueOf((int)(salary*0.051));
+		return str;
+	}
+	/**
+	 * Метод, вычисляющий размер выплаты по ФСС
+	 */
+	public static String FSS(float salary){
+		String str;
+		str = String.valueOf((int)(salary*0.029));
+		return str;
+	}
+	/**
+	 * Метод, вычисляющий размер выплаты по ФСС (Несчастные случаи)
+	 */
+	public static String FSSNS(float salary){
+		String str;
+		str = String.valueOf((int)(salary*0.002));
+		return str;
+	}
+	/**
+	 * Метод, вычисляющий размер заработной платы к выплате
+	 */
+	public static String TotalSalary(int salary, int NDFL){
+		String str;
+		str = String.valueOf(salary-NDFL);
+		return str;
 	}
 }

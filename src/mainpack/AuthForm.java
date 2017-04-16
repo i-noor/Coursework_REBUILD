@@ -1,14 +1,16 @@
 /**
- * объявление пакета и классов, необходимых для работы
+ * Указывает, к какому пакету принадлежит файл
  */
 package mainpack;
-
+/**
+ * импорт необходимых библиотек
+ */
 import javax.swing.*; 
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 /**
- * объявление класса, необходимого для создания формы аутентификации
+ * объявление класса, создающего форму аутентификации
  */
 class AuthForm extends JFrame{
 	/**
@@ -24,32 +26,31 @@ class AuthForm extends JFrame{
 	 */
 	private JPanel contentPane;
 	/**
-	 * объявление главного класса
+	 * метод, отвечающий за запуск программы
 	 */
 	public static void main(String[] args) {
 		/**
-		 * доставка операции в главный поток
+		 * Метод запуска  формы помещен в очередь
 		 */
 		EventQueue.invokeLater(new Runnable() {
-			/**
-			 * определение метода, с помощью которого код передается в другой класс для выполнения
-			 */
-			public void run() {
+				public void run() {
 				/**
-				 * задание блока программного кода, который требуется защитить от исключений
+				 * Блок, защищенный от исключений
 				 */
 				try {
 					/**
-					 * создание экземпляра класса с экранной формой и установка видимости рамки
+					 * Создается и выводится объект текущей формы
 					 */
 					AuthForm frame = new AuthForm();
 					frame.setVisible(true);
+					
+				} 
+				/**
+		        * обработка возникающих исключений
+		        */
+				catch (Exception e) {
 					/**
-				        * обработка возникающих исключений
-				        */
-				} catch (Exception e) {
-					/**
-					 * печать информации относительно исключения, как оно произошло и в какой строке кода. 
+					 * Вывод информации о исключении
 					 */
 					e.printStackTrace();}
 			}
@@ -90,7 +91,7 @@ class AuthForm extends JFrame{
 		ActionListener ExitButListener = new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/**
-				 * удаление формы
+				 * освобождение ресурсов текущей формы
 				 */
 				dispose();
 			}
@@ -100,7 +101,7 @@ class AuthForm extends JFrame{
 		 */
 		JButton buttonExit = GenerateItems.CreateButton(ExitButListener,contentPane, itemnames[1], 130, 136, 89, 23);
 		/**
-		 * задаем обработку событий для кнопки ввода
+		 * задаем обработку событий для кнопки входа
 		 */
 		ActionListener AuthButListener = new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
